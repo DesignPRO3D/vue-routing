@@ -1,9 +1,22 @@
 import Home from './components/Home.vue';
-import User from './components/user/User.vue';
-import UserStart from './components/user/UserStart.vue';
+//import User from './components/user/User.vue';
+//import UserStart from './components/user/UserStart.vue';
 import UserDetail from './components/user/UserDetail.vue';
 import UserEdit from './components/user/UserEdit.vue';
 import Header from './components/Header.vue';
+
+// Lazy Loading - Webpack only load User.vue component if we need it
+const User = resolve => {
+  require.ensure(['./components/user/User.vue'], () => {
+    resolve(require('./components/user/User.vue'));
+  });
+}
+
+const UserStart = resolve => {
+  require.ensure(['./components/user/UserStart.vue'], () => {
+    resolve(require('./components/user/UserStart.vue'));
+  });
+}
 
 export const routes = [
   // {
@@ -54,7 +67,12 @@ export const routes = [
       },
       {
         path: ':id',
-        component: UserDetail
+        component: UserDetail,
+        beforeEnter: (to, from, next) => {
+          console.log('Before Enter');
+
+          next();
+        }
       },
       {
         path: ':id/edit',
