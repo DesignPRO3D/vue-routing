@@ -6,16 +6,17 @@ import UserEdit from './components/user/UserEdit.vue';
 import Header from './components/Header.vue';
 
 // Lazy Loading - Webpack only load User.vue component if we need it
+// 'user' on the end web pack create one bundle instead 2
 const User = resolve => {
   require.ensure(['./components/user/User.vue'], () => {
     resolve(require('./components/user/User.vue'));
-  });
+  }, 'user');
 }
 
 const UserStart = resolve => {
   require.ensure(['./components/user/UserStart.vue'], () => {
     resolve(require('./components/user/UserStart.vue'));
-  });
+  }, 'user');
 }
 
 export const routes = [
